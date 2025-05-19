@@ -26,8 +26,8 @@ export default function AuthenticatedLayout({ header, children }) {
                 },
                 {
                     name: "Data Kriteria",
-                    href: route("dashboard"),
-                    current: route().current("dashboard"),
+                    href: route("criterias"),
+                    current: route().current("criterias"),
                 },
                 {
                     name: "Run Analysis",

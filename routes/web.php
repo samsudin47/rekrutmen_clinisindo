@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CriteriaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,7 +21,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth','admin'])->group(function(){
+Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
@@ -30,7 +31,16 @@ Route::middleware(['auth','admin'])->group(function(){
 
 Route::middleware('auth')->group(function(){
     Route::get('/candidates', [CandidateController::class, 'index'])->name('candidates');
-    Route::post('/candidates/create',[CandidateController::class, 'create'])->name('candidates.create');
+    Route::get('/candidates/create', [CandidateController::class, 'create'])->name('candidates.create');
+    Route::post('/candidates/store', [CandidateController::class, 'store'])->name('candidates.store');
+    Route::get('/candidates/edit/{candidate}', [CandidateController::class, 'edit'])->name('candidates.edit');
+    Route::patch('/candidates/update/{candidate}', [CandidateController::class, 'update'])->name('candidates.update');
+});
+
+Route::middleware('auth')->group(function(){
+    Route::get('/criterias', [CriteriaController::class, 'index'])->name('criterias');
+    Route::get('/criterias/create', [CriteriaController::class, 'create'])->name('criterias.create');
+    Route::post('/criterias/store', [CriteriaController::class, 'store'])->name('criterias.store');
 });
 
 Route::middleware('auth')->group(function () {

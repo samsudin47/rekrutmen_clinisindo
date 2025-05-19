@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate', function(Blueprint $table){
-            $table->id();
-            $table->string(column: 'kode')->unique();
+        Schema::create('criterias', function(Blueprint $table){
+            $table->id()->autoIncrement()->primary();
+            $table->string('kode')->unique();
             $table->string('nama');
-            $table->string('posisi');
-            $table->string('pendidikan');
-            $table->string('pengalaman');
-            $table->string('gaji');
-            $table->string('psikotest');
+            $table->string('skala_pengukuran');
+            $table->string('deskripsi');
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate');
+        Schema::dropIfExists(('criterias'));
     }
 };

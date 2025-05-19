@@ -9,7 +9,6 @@ export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         email: "",
-        role: "user",
         password: "",
         password_confirmation: "",
     });
@@ -59,12 +58,6 @@ export default function Register() {
                     />
 
                     <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="role" value="Role" />
-
-                    <InputError message={errors.role} className="mt-2" />
                 </div>
 
                 <div className="mt-4">

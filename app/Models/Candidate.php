@@ -8,6 +8,11 @@ class Candidate extends Model
 {
     protected $table = 'candidate';
 
+    public function status()
+    {
+        return $this->belongsTo(CandidateStatus::class, 'status_id');
+    }
+
     protected $fillable = [
         'kode',
         'nama',
@@ -15,6 +20,7 @@ class Candidate extends Model
         'pendidikan',
         'pengalaman',
         'gaji',
-        'psikotest'
+        'psikotest',
+        'status_id',
     ];
 }
