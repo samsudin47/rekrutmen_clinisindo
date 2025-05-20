@@ -30,7 +30,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     current: route().current("criterias"),
                 },
                 {
-                    name: "Run Analysis",
+                    name: "Analysis Cart",
                     href: route("dashboard"),
                     current: route().current("dashboard"),
                 },
