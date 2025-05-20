@@ -14,7 +14,7 @@ export default function CandidatesIndex({ auth, candidates }) {
             <Head title="Candidates" />
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1600px] sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center mb-4">
                         <label>Data Pelamar : {candidates.total}</label>
 
@@ -25,7 +25,7 @@ export default function CandidatesIndex({ auth, candidates }) {
                             Create Candidate
                         </Link>
                     </div>
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div className=" bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="">

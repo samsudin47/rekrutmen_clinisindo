@@ -39,4 +39,11 @@ class CriteriaController extends Controller
 
         return redirect()->route('criterias');
     }
+
+    public function edit(Criteria $criteria){
+        return Inertia::render('Criteria/Edit',[
+            'criteria' => $criteria,
+            'categoryList' => CategoryStatus::all(),
+        ]);
+    }
 }

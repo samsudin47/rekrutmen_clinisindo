@@ -6,23 +6,23 @@ import TextInput from "@/Components/TextInput";
 import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 
-export default function CriteriaCreate({ categoryList }) {
-    const { data, setData, post, errors, processing, recentlySuccessful } =
+export default function CriteriaEdit({ criteria, categoryList }) {
+    const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
-            kode: "",
-            nama: "",
-            skala_pengukuran: "",
-            deskripsi: "",
-            kategori_id: "",
+            kode: criteria.kode,
+            nama: criteria.nama,
+            skala_pengukuran: criteria.skala_pengukuran,
+            deskripsi: criteria.deskripsi,
+            kategori_id: criteria.kategori_id || "",
         });
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("criterias.store"), {
+        patch(route("criterias.update", criteria), {
             preserveScroll: true,
             onSuccess: () => {
-                alert("Crtiteria created successfully");
+                alert("Candidate updated successfully");
             },
             onError: (errors) => {
                 console.log(errors);
@@ -33,7 +33,7 @@ export default function CriteriaCreate({ categoryList }) {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Criterias
+                    Criteria
                 </h2>
             }
         >
@@ -47,11 +47,11 @@ export default function CriteriaCreate({ categoryList }) {
                             <section className="max-w-xl">
                                 <header>
                                     <h2 className="text-lg font-medium text-gray-900">
-                                        Create Criteria
+                                        Update Criteria
                                     </h2>
 
                                     <p className="mt-1 text-sm text-gray-600">
-                                        Create a new criteria
+                                        Update a criteria's information.
                                     </p>
                                 </header>
 
@@ -139,6 +139,7 @@ export default function CriteriaCreate({ categoryList }) {
 
                                         <TextInput
                                             id="deskripsi"
+                                            className="mt-1 block w-full"
                                             value={data.deskripsi}
                                             onChange={(e) =>
                                                 setData(
@@ -146,7 +147,6 @@ export default function CriteriaCreate({ categoryList }) {
                                                     e.target.value
                                                 )
                                             }
-                                            className="mt-1 block w-full"
                                             autoComplete="deskripsi"
                                         />
 

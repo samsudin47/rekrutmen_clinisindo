@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/criterias', [CriteriaController::class, 'index'])->name('criterias');
     Route::get('/criterias/create', [CriteriaController::class, 'create'])->name('criterias.create');
     Route::post('/criterias/store', [CriteriaController::class, 'store'])->name('criterias.store');
+    Route::get('/criterias/edit/{criteria}', [CriteriaController::class, 'edit'])->name('criterias.edit');
 });
 
 Route::middleware('auth')->group(function () {

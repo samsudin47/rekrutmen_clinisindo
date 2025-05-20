@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::table('candidate', function (Blueprint $table) {
-        //     // Add the status_id column to the candidate table
-        //     $table->foreignId('status_id')->nullable()->constrained('status_candidate')->onDelete('cascade');
-        //     // Add an index to the status_id column
-        //     $table->index('status_id');
-        // });
+        Schema::table('candidate', function (Blueprint $table) {
+            // Add the status_id column to the candidate table
+            $table->foreignId('status_id')->nullable()->constrained('status_candidate')->onDelete('cascade');
+            // Add an index to the status_id column
+            $table->index('status_id');
+        });
     }
 
     /**
