@@ -31,8 +31,8 @@ export default function AuthenticatedLayout({ header, children }) {
                 },
                 {
                     name: "Analysis Cart",
-                    href: route("dashboard"),
-                    current: route().current("dashboard"),
+                    href: route("analysis"),
+                    current: route().current("analysis"),
                 },
                 {
                     name: "Manage Users",

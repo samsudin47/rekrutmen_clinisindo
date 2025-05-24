@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('pengalaman');
             $table->string('gaji');
             $table->string('psikotest');
+            $table->foreignId('status_id')->nullable()->constrained(table: 'status_candidate', column: 'id')->onDelete('cascade');
         });
     }
 
