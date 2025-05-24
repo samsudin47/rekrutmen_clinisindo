@@ -46,4 +46,19 @@ class CriteriaController extends Controller
             'categoryList' => CategoryStatus::all(),
         ]);
     }
+
+    public function update(Request $request, Criteria $criteria)
+    {
+        $request->validate([
+            'kode'=>'required|unique:criterias,id',
+            'nama'=>'required',
+            'skala_pengukuran'=>'required',
+            'deskripsi'=>'required',
+            'kategori_id'=>'required'
+        ]);
+
+        $criteria->update($request->all());
+
+        return redirect()->route('criterias');
+    }
 }

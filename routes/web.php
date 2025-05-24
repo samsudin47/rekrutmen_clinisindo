@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AnalaysisController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CriteriaController;
+use App\Http\Controllers\DataTrainingController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,7 +44,13 @@ Route::middleware('auth')->group(function(){
     Route::get('/criterias/create', [CriteriaController::class, 'create'])->name('criterias.create');
     Route::post('/criterias/store', [CriteriaController::class, 'store'])->name('criterias.store');
     Route::get('/criterias/edit/{criteria}', [CriteriaController::class, 'edit'])->name('criterias.edit');
+    Route::patch('/criterias/update/{criteria}', [CriteriaController::class, 'update'])->name('criterias.update');
 });
+
+Route::middleware('auth')->group((function(){
+    Route::get('/analysis', [AnalaysisController::class, 'index'])->name('analysis');
+    Route::get('/dataTraining', [DataTrainingController::class, 'candidatesForTraining'])->name('dataTraining');
+}));
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

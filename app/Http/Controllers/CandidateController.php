@@ -13,7 +13,6 @@ class CandidateController extends Controller
     public function index(){
         $candidates = Candidate::with('status')->paginate(10);
 
-
         return Inertia::render('Candidate/Index', [
             'candidates' => $candidates,
         ]);
