@@ -1,7 +1,8 @@
 import { Head } from "@inertiajs/react";
 
-export default function TrainingData({ candidates = [] }) {
-    console.log("candidates", candidates);
+export default function Data({ dataTraining }) {
+    console.log("Data Training:", dataTraining);
+
     return (
         <div className="py-4">
             <Head title="Data Training" />
@@ -70,46 +71,38 @@ export default function TrainingData({ candidates = [] }) {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {candidates?.map((item) => (
-                                        <tr>
+                                    {dataTraining.map((item) => (
+                                        <tr key={item.id}>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {item.candidate.nama}
+                                                {item.candidate?.nama}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {item.candidate.posisi}
+                                                {item.candidate?.posisi}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {item.candidate.pendidikan}
+                                                {item.candidate?.pendidikan}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {item.candidate.pengalaman}
+                                                {item.candidate?.pengalaman}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {item.candidate.gaji}
+                                                {item.candidate?.gaji}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {item.candidate.psikotest}
+                                                {item.candidate?.psikotest}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {item.candidate.status}
+                                                {item.candidate?.status
+                                                    ?.description ?? "-"}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                 {item.prediction_model}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {item.accuracy === "1"
-                                                    ? "✓"
-                                                    : "✗"}
+                                                {item.accuracy}
                                             </td>
-                                            {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {item.actual_decision ===
-                                            item.model_prediction
-                                                ? "✓"
-                                                : "✗"}
-                                        </td> */}
                                         </tr>
                                     ))}
-                                    ;
                                 </tbody>
                             </table>
                         </div>

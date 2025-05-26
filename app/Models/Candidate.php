@@ -8,6 +8,12 @@ class Candidate extends Model
 {
     protected $table = 'candidate';
 
+    protected $primaryKey = 'id';
+    public function trainingData()
+    {
+        return $this->hasOne(DataTraining::class, 'candidate_id');
+    }
+
     public function status()
     {
         return $this->belongsTo(CandidateStatus::class, 'status_id');
@@ -21,6 +27,6 @@ class Candidate extends Model
         'pengalaman',
         'gaji',
         'psikotest',
-        'status_id',
+        'status_id'
     ];
 }
