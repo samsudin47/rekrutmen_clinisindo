@@ -49,8 +49,11 @@ Route::middleware('auth')->group(function(){
 
 Route::middleware('auth')->group((function(){
     Route::get('/analysis', [AnalaysisController::class, 'index'])->name('analysis');
-    Route::get('/dataTraining', [DataTrainingController::class, 'candidatesForTraining'])->name('dataTraining');
 }));
+
+Route::middleware('auth')->prefix('analysis')->group(function(){
+    Route::get('/dataTraining', [DataTrainingController::class, 'data'])->name('dataTraining.data');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

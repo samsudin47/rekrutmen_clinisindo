@@ -16,7 +16,7 @@ class DataTraining extends Model
     protected $fillable = [
         'candidate_id',
         'prediction_model',
-        'accuracy'
+        'accuracy',
     ];
 
 }

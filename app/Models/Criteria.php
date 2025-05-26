@@ -13,11 +13,6 @@ class Criteria extends Model
         return $this->belongsTo(CategoryStatus::class, 'kategori_id');
     }
 
-    protected $fillable =[
-        'kode',
-        'nama',
-        'skala_pengukuran',
-        'deskripsi',
-        'kategori_id',
+    protected $guarded =[
     ];
 }
