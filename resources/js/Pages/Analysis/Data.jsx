@@ -1,4 +1,5 @@
 import { Head } from "@inertiajs/react";
+import Pagination from "@/Components/Pagination";
 
 export default function Data({ dataTraining }) {
     console.log("Data Training:", dataTraining);
@@ -71,7 +72,7 @@ export default function Data({ dataTraining }) {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {dataTraining.map((item) => (
+                                    {dataTraining.data.map((item) => (
                                         <tr key={item.id}>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                 {item.candidate?.nama}
@@ -105,6 +106,7 @@ export default function Data({ dataTraining }) {
                                     ))}
                                 </tbody>
                             </table>
+                            <Pagination links={dataTraining.links} />
                         </div>
 
                         <div className="mt-8">

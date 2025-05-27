@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import TextInput from "@/Components/TextInput";
+import InputLabel from "@/Components/InputLabel";
+import InputError from "@/Components/InputError";
+import Pagination from "@/Components/Pagination";
 
 export default function DecisionCalculator() {
     const [formData, setFormData] = useState({
@@ -58,140 +62,91 @@ export default function DecisionCalculator() {
     };
 
     return (
-        <div className="bg-gray-100 p-6 rounded-lg mb-6">
-            <form onSubmit={handleSubmit}>
+        <div className="max-w-full mx-auto">
+            <form onSubmit={handleSubmit} className="mx-auto">
                 <div className="mb-4">
-                    <label htmlFor="nama" className="block font-semibold mb-1">
-                        Nama :
-                    </label>
-                    <input
-                        type="number"
+                    <InputLabel htmlFor="nama" value="Nama" />
+
+                    <TextInput
                         id="nama"
-                        name="nama"
-                        min="0"
-                        max="100"
-                        className="w-full px-3 py-2 border rounded-md"
-                        placeholder=""
-                        value={formData.nama}
-                        onChange={handleChange}
+                        className="mt-1 block w-1/2"
+                        required
+                        isFocused
+                        autoComplete="nama"
                     />
-                    {error?.nama && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {error.nama}
-                        </p>
-                    )}
+
+                    <InputError className="mt-2" message="" />
                 </div>
 
                 <div className="mb-4">
-                    <label
-                        htmlFor="posisi"
-                        className="block font-semibold mb-1"
-                    >
-                        Posisi :
-                    </label>
-                    <input
-                        type="text"
+                    <InputLabel htmlFor="posisi" value="Posisi" />
+
+                    <TextInput
                         id="posisi"
-                        name="posisi"
-                        min="0"
-                        max="100"
-                        className="w-full px-3 py-2 border rounded-md"
-                        placeholder=""
-                        value={formData.posisi}
-                        onChange={handleChange}
+                        className="mt-1 block w-1/2"
+                        required
+                        isFocused
+                        autoComplete="posisi"
                     />
-                    {error?.posisi && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {error.posisi}
-                        </p>
-                    )}
+
+                    <InputError className="mt-2" message="" />
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="gaji" className="block font-semibold mb-1">
-                        Gaji :
-                    </label>
-                    <input
-                        type="number"
+                    <InputLabel htmlFor="gaji" value="Gaji" />
+
+                    <TextInput
                         id="gaji"
-                        name="gaji"
-                        min="0"
-                        max="100"
-                        className="w-full px-3 py-2 border rounded-md"
-                        placeholder=""
-                        value={formData.gaji}
-                        onChange={handleChange}
+                        className="mt-1 block w-1/2"
+                        required
+                        isFocused
+                        autoComplete="gaji"
                     />
-                    {error?.gaji && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {error.gaji}
-                        </p>
-                    )}
+
+                    <InputError className="mt-2" message="" />
                 </div>
 
                 <div className="mb-4">
-                    <label
-                        htmlFor="psikotest"
-                        className="block font-semibold mb-1"
-                    >
-                        Nilai Psikotest:
-                    </label>
-                    <input
-                        type="number"
+                    <InputLabel htmlFor="psikotest" value="Nilai Psikotest" />
+
+                    <TextInput
                         id="psikotest"
-                        name="psikotest"
-                        min="0"
-                        max="100"
-                        className="w-full px-3 py-2 border rounded-md"
-                        placeholder=""
-                        value={formData.psikotest}
-                        onChange={handleChange}
+                        className="mt-1 block w-1/2"
+                        required
+                        isFocused
+                        autoComplete="psikotest"
                     />
-                    {error?.psikotest && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {error.psikotest}
-                        </p>
-                    )}
+
+                    <InputError className="mt-2" message="" />
                 </div>
 
                 <div className="mb-4">
-                    <label
-                        htmlFor="experience"
-                        className="block font-semibold mb-1"
-                    >
-                        Pengalaman (tahun):
-                    </label>
-                    <input
-                        type="number"
-                        id="experience"
-                        name="experience"
-                        min="0"
-                        step="1"
-                        className="w-full px-3 py-2 border rounded-md"
-                        placeholder=""
-                        value={formData.experience}
-                        onChange={handleChange}
+                    <InputLabel
+                        htmlFor="pengalaman"
+                        value="Pengalaman (Tahun)"
                     />
-                    {error?.experience && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {error.experience}
-                        </p>
-                    )}
+
+                    <TextInput
+                        id="pengalaman"
+                        className="mt-1 block w-1/2"
+                        required
+                        isFocused
+                        autoComplete="pengalaman"
+                    />
+
+                    <InputError className="mt-2" message="" />
                 </div>
 
                 <div className="mb-4">
-                    <label
-                        htmlFor="education"
-                        className="block font-semibold mb-1"
-                    >
-                        Pendidikan Terakhir:
-                    </label>
+                    <InputLabel
+                        htmlFor="pendidikan"
+                        value="Pendidikan Terakhir"
+                    />
+
                     <select
-                        id="education"
-                        name="education"
-                        className="w-full px-3 py-2 border rounded-md"
-                        value={formData.education}
-                        onChange={handleChange}
+                        id="pendidikan"
+                        name="pendidikan"
+                        className="w-1/2 rounded-md"
                     >
                         <option value="">Pilih Pendidikan</option>
                         <option value="S1">S1</option>
@@ -199,16 +154,13 @@ export default function DecisionCalculator() {
                         <option value="SMA">SMA</option>
                         <option value="Lainnya">Lainnya</option>
                     </select>
-                    {error?.education && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {error.education}
-                        </p>
-                    )}
+
+                    <InputError className="mt-2" message="" />
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+                    className="w-1/2 mt-10 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
                     disabled={loading}
                 >
                     {loading ? "Memproses..." : "Hitung Keputusan"}

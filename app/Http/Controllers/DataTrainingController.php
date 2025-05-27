@@ -12,7 +12,7 @@ class DataTrainingController extends Controller
     {
         $dataTraining = DataTraining::with([
             'candidate.status'
-        ])->get();
+        ])->paginate(10);
 
         $metrics = [
             // 'accuracy' => DataTraining::avg('accuracy'),
@@ -21,7 +21,7 @@ class DataTrainingController extends Controller
             'akurasi' => '86.67%' // Example static value, replace with actual calculation if needed
         ];
 
-        return Inertia::render('Analysis/Data', [
+        return Inertia::render('Analysis/Index', [
             'dataTraining' => $dataTraining,
             'activeTab' => 'dataTraining',
             'metrics'=> $metrics,

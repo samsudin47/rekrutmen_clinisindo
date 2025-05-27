@@ -4,12 +4,10 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DecisionCalculator from "./DecisionCalculator";
 import DecisionTree from "./DecisionTree";
 import GiniCalculation from "./GiniCalculation";
-import MetricsPanel from "./GiniCalculation";
 import Data from "./Data";
 
 export default function Index({
     auth,
-    metrics,
     dataTraining,
     activeTab: initialTab = "calculator",
 }) {
@@ -17,16 +15,15 @@ export default function Index({
 
     const tabs = [
         {
-            id: "dataTraining",
-            name: "Data Training",
-            href: route("dataTraining.data"),
-            current: activeTab === "dataTraining",
-        },
-        {
             id: "calculator",
             name: "Kalkulator Keputusan",
             href: "#", // opsional: bisa disetel pakai tombol
             current: activeTab === "calculator",
+        },
+        {
+            name: "Data Training",
+            href: route("dataTraining.data"),
+            current: activeTab === "dataTraining",
         },
         {
             id: "visualization",
@@ -54,7 +51,7 @@ export default function Index({
             <Head title="Sistem Pohon Keputusan" />
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1600px] sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             <header className="text-center mb-6 pb-4 border-b">
@@ -100,6 +97,15 @@ export default function Index({
                             </nav>
 
                             <div className="mt-6">
+                                {activeTab === "calculator" && (
+                                    <div>
+                                        <h2 className="text-xl font-bold text-gray-700 mb-4">
+                                            Kalkulator Keputusan
+                                        </h2>
+                                        <DecisionCalculator />
+                                    </div>
+                                )}
+
                                 {activeTab === "dataTraining" && (
                                     <div>
                                         <h2 className="text-xl font-bold text-gray-700 mb-4">
@@ -111,17 +117,6 @@ export default function Index({
                                             keputusan.
                                         </p>
                                         <Data dataTraining={dataTraining} />
-                                        <MetricsPanel metrics={metrics} />
-                                    </div>
-                                )}
-
-                                {activeTab === "calculator" && (
-                                    <div>
-                                        <h2 className="text-xl font-bold text-gray-700 mb-4">
-                                            Kalkulator Keputusan
-                                        </h2>
-                                        <DecisionCalculator />
-                                        <MetricsPanel metrics={metrics} />
                                     </div>
                                 )}
 

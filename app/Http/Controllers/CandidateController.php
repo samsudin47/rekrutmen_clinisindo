@@ -37,7 +37,12 @@ class CandidateController extends Controller
             'status_id'=>'required'
         ]);
 
-        Candidate::create($request->all());
+        $candidate = Candidate::create($request->all());
+
+        $candidate->trainingData()->create([
+            'prediction_model' => 'Model Name', // Replace with actual model name
+            'accuracy' => 0.0, // Initial accuracy, replace with actual value if needed
+        ]);
 
         return redirect()->route('candidates');
     }
@@ -62,6 +67,13 @@ class CandidateController extends Controller
         ]);
 
         $candidate->update($request->all());
+
+        if($candidate->trainingData) {
+            $candidate->trainingData->update([
+                'prediction_model' => 'Updated Model Name', // Replace with actual updated model name
+                'accuracy' => 0.0, // Update accuracy if needed
+            ]);
+        }
 
         return redirect()->route('candidates');
     }
