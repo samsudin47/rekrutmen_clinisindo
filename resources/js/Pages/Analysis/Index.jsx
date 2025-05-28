@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Head, Link } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DecisionCalculator from "./DecisionCalculator";
@@ -15,10 +15,9 @@ export default function Index({
 
     const tabs = [
         {
-            id: "calculator",
             name: "Kalkulator Keputusan",
-            href: "#", // opsional: bisa disetel pakai tombol
-            current: activeTab === "calculator",
+            href: route("analysis.calculateDecision"),
+            current: activeTab === "calculateDecision",
         },
         {
             name: "Data Training",
@@ -97,12 +96,14 @@ export default function Index({
                             </nav>
 
                             <div className="mt-6">
-                                {activeTab === "calculator" && (
+                                {activeTab === "calculateDecision" && (
                                     <div>
                                         <h2 className="text-xl font-bold text-gray-700 mb-4">
                                             Kalkulator Keputusan
                                         </h2>
-                                        <DecisionCalculator />
+                                        <DecisionCalculator
+                                            dataTraining={dataTraining}
+                                        />
                                     </div>
                                 )}
 
