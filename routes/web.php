@@ -54,7 +54,7 @@ Route::middleware('auth')->group((function(){
 
 Route::middleware('auth')->prefix('analysis')->group(function(){
     Route::get('/dataTraining', [DataTrainingController::class, 'data'])->name('dataTraining.data');
-    Route::get('/decisionCalculator', [DecisionCalculator::class, 'calculateDecision'])->name('analysis.calculateDecision');
+    Route::get('/decisionCalculator', [DecisionCalculator::class, 'calculateDecision'])->name('decisionCalculator.calculateDecision');
 });
 
 Route::middleware('auth')->group(function () {
