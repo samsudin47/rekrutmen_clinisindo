@@ -16,8 +16,8 @@ export default function Index({
     const tabs = [
         {
             name: "Kalkulator Keputusan",
-            href: route("analysis.calculateDecision"),
-            current: activeTab === "calculateDecision",
+            href: route("decisionCalculator.calculateDecision"),
+            current: activeTab === "decisionCalculator",
         },
         {
             name: "Data Training",
@@ -96,7 +96,7 @@ export default function Index({
                             </nav>
 
                             <div className="mt-6">
-                                {activeTab === "calculateDecision" && (
+                                {activeTab === "decisionCalculator" && (
                                     <div>
                                         <h2 className="text-xl font-bold text-gray-700 mb-4">
                                             Kalkulator Keputusan

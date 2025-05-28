@@ -12,7 +12,7 @@ class DecisionCalculator extends Controller
     {
         $dataTraining = DataTraining::with(['candidate.status'])->get();
 
-        return Inertia::render('Analysis/DecisionCalculator', [
+        return Inertia::render('Analysis/Index', [
             'dataTraining' => $dataTraining,
             'activeTab' => 'decisionCalculator',
         ]);
