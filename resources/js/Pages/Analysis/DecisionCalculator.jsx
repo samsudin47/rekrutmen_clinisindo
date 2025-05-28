@@ -1,193 +1,126 @@
-import { useState } from "react";
-import axios from "axios";
-import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import Pagination from "@/Components/Pagination";
+import { Head, useForm } from "@inertiajs/react";
+import { useEffect } from "react";
 
-export default function DecisionCalculator() {
-    const [formData, setFormData] = useState({
+export default function DecisionCalculator({ dataTraining }) {
+    const { data, setData, post, errors, processing } = useForm({
+        nama: "",
+        posisi: "",
+        pendidikan: "",
+        pengalaman: "",
+        gaji: "",
         psikotest: "",
-        experience: "",
-        education: "",
+        status_id: "",
     });
 
-    const [result, setResult] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+    const handleSelectChange = (e) => {
+        const selectedId = e.target.value;
+        setData("nama", selectedId);
     };
 
-    const handleSubmit = async (e) => {
+    useEffect(() => {
+        if (data.nama) {
+            const selected = dataTraining.find((item) => item.id == data.nama);
+            if (selected?.candidate) {
+                const c = selected.candidate;
+                setData((prev) => ({
+                    ...prev,
+                    posisi: c.posisi || "",
+                    pendidikan: c.pendidikan || "",
+                    pengalaman: c.pengalaman || "",
+                    gaji: c.gaji || "",
+                    psikotest: c.psikotest || "",
+                    status_id: c.status_id || "",
+                }));
+            }
+        } else {
+            // reset semua jika nama dikosongkan
+            setData((prev) => ({
+                ...prev,
+                posisi: "",
+                pendidikan: "",
+                pengalaman: "",
+                gaji: "",
+                psikotest: "",
+                status_id: "",
+            }));
+        }
+    }, [data.nama]);
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError(null);
-
-        try {
-            const response = await axios.post(
-                route("employee-decision.calculate"),
-                formData
-            );
-            setResult(response.data);
-        } catch (err) {
-            setError(
-                err.response?.data?.errors || {
-                    general: "Terjadi kesalahan. Silakan coba lagi.",
-                }
-            );
-        } finally {
-            setLoading(false);
-        }
+        // ganti URL sesuai route yang kamu pakai
+        post("/decision-calculate");
     };
 
-    const getResultClassName = () => {
-        if (!result) return "";
-
-        switch (result.decision) {
-            case "Diterima":
-                return "bg-green-50 border border-green-500 text-green-700";
-            case "Dipertimbangkan":
-                return "bg-yellow-50 border border-yellow-500 text-yellow-700";
-            case "Tidak Diterima":
-                return "bg-red-50 border border-red-500 text-red-700";
-            default:
-                return "";
-        }
-    };
+    const renderReadOnlyField = (label, name, value) => (
+        <div className="mb-4">
+            <InputLabel htmlFor={name} value={label} />
+            <input
+                type="text"
+                id={name}
+                value={value}
+                readOnly
+                className="mt-1 block w-1/2 rounded-md border-gray-300 bg-gray-100 shadow-sm"
+            />
+        </div>
+    );
 
     return (
-        <div className="max-w-full mx-auto">
+        <div className="max-w-full mx-auto p-10">
+            <Head title="Kalkulator Keputusan" />
+
             <form onSubmit={handleSubmit} className="mx-auto">
+                {/* Select Nama Kandidat */}
                 <div className="mb-4">
                     <InputLabel htmlFor="nama" value="Nama" />
-
-                    <TextInput
-                        id="nama"
-                        className="mt-1 block w-1/2"
-                        required
-                        isFocused
-                        autoComplete="nama"
-                    />
-
-                    <InputError className="mt-2" message="" />
-                </div>
-
-                <div className="mb-4">
-                    <InputLabel htmlFor="posisi" value="Posisi" />
-
-                    <TextInput
-                        id="posisi"
-                        className="mt-1 block w-1/2"
-                        required
-                        isFocused
-                        autoComplete="posisi"
-                    />
-
-                    <InputError className="mt-2" message="" />
-                </div>
-
-                <div className="mb-4">
-                    <InputLabel htmlFor="gaji" value="Gaji" />
-
-                    <TextInput
-                        id="gaji"
-                        className="mt-1 block w-1/2"
-                        required
-                        isFocused
-                        autoComplete="gaji"
-                    />
-
-                    <InputError className="mt-2" message="" />
-                </div>
-
-                <div className="mb-4">
-                    <InputLabel htmlFor="psikotest" value="Nilai Psikotest" />
-
-                    <TextInput
-                        id="psikotest"
-                        className="mt-1 block w-1/2"
-                        required
-                        isFocused
-                        autoComplete="psikotest"
-                    />
-
-                    <InputError className="mt-2" message="" />
-                </div>
-
-                <div className="mb-4">
-                    <InputLabel
-                        htmlFor="pengalaman"
-                        value="Pengalaman (Tahun)"
-                    />
-
-                    <TextInput
-                        id="pengalaman"
-                        className="mt-1 block w-1/2"
-                        required
-                        isFocused
-                        autoComplete="pengalaman"
-                    />
-
-                    <InputError className="mt-2" message="" />
-                </div>
-
-                <div className="mb-4">
-                    <InputLabel
-                        htmlFor="pendidikan"
-                        value="Pendidikan Terakhir"
-                    />
-
                     <select
-                        id="pendidikan"
-                        name="pendidikan"
-                        className="w-1/2 rounded-md"
+                        id="nama"
+                        name="nama"
+                        value={data.nama}
+                        onChange={handleSelectChange}
+                        className="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     >
-                        <option value="">Pilih Pendidikan</option>
-                        <option value="S1">S1</option>
-                        <option value="D3">D3</option>
-                        <option value="SMA">SMA</option>
-                        <option value="Lainnya">Lainnya</option>
+                        <option value="">Pilih Nama Kandidat</option>
+                        {dataTraining.map((item) => (
+                            <option key={item.id} value={item.id}>
+                                {item.candidate?.nama ??
+                                    `Kandidat ${item.candidate_id}`}
+                            </option>
+                        ))}
                     </select>
-
-                    <InputError className="mt-2" message="" />
+                    <InputError className="mt-2" message={errors.nama} />
                 </div>
 
+                {/* Field lain otomatis terisi */}
+                {renderReadOnlyField("Posisi", "posisi", data.posisi)}
+                {renderReadOnlyField(
+                    "Pendidikan",
+                    "pendidikan",
+                    data.pendidikan
+                )}
+                {renderReadOnlyField(
+                    "Pengalaman (Tahun)",
+                    "pengalaman",
+                    data.pengalaman
+                )}
+                {renderReadOnlyField("Gaji", "gaji", data.gaji)}
+                {renderReadOnlyField(
+                    "Nilai Psikotest",
+                    "psikotest",
+                    data.psikotest
+                )}
+
+                {/* Tombol Submit */}
                 <button
                     type="submit"
                     className="w-1/2 mt-10 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
-                    disabled={loading}
+                    disabled={processing}
                 >
-                    {loading ? "Memproses..." : "Hitung Keputusan"}
+                    {processing ? "Memproses..." : "Hitung Keputusan"}
                 </button>
             </form>
-
-            {result && (
-                <div className={`mt-6 p-4 rounded-md ${getResultClassName()}`}>
-                    <h3 className="text-lg font-bold">
-                        Hasil: {result.decision} {result.note}
-                    </h3>
-                    <p className="mt-2">
-                        {result.decision === "Diterima" &&
-                            "Calon karyawan memenuhi kriteria untuk diterima berdasarkan model pohon keputusan."}
-                        {result.decision === "Dipertimbangkan" &&
-                            "Calon karyawan masuk dalam kategori yang perlu dipertimbangkan lebih lanjut."}
-                        {result.decision === "Tidak Diterima" &&
-                            "Calon karyawan tidak memenuhi kriteria minimum berdasarkan model pohon keputusan."}
-                    </p>
-                </div>
-            )}
-
-            {error?.general && (
-                <div className="mt-4 p-3 bg-red-50 border border-red-300 text-red-700 rounded">
-                    {error.general}
-                </div>
-            )}
         </div>
     );
 }

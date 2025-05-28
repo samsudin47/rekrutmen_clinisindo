@@ -2,8 +2,6 @@ import { Head } from "@inertiajs/react";
 import Pagination from "@/Components/Pagination";
 
 export default function Data({ dataTraining }) {
-    console.log("Data Training:", dataTraining);
-
     return (
         <div className="py-4">
             <Head title="Data Training" />

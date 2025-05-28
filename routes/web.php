@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\DataTrainingController;
+use App\Http\Controllers\DecisionCalculator;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,6 +54,7 @@ Route::middleware('auth')->group((function(){
 
 Route::middleware('auth')->prefix('analysis')->group(function(){
     Route::get('/dataTraining', [DataTrainingController::class, 'data'])->name('dataTraining.data');
+    Route::get('/decisionCalculator', [DecisionCalculator::class, 'calculateDecision'])->name('analysis.calculateDecision');
 });
 
 Route::middleware('auth')->group(function () {
