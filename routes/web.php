@@ -7,6 +7,8 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\DataTrainingController;
 use App\Http\Controllers\DecisionCalculator;
+use App\Http\Controllers\RunDecisionTreeController;
+use App\Http\Controllers\DecisionTreeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -55,6 +57,8 @@ Route::middleware('auth')->group((function(){
 Route::middleware('auth')->prefix('analysis')->group(function(){
     Route::get('/dataTraining', [DataTrainingController::class, 'data'])->name('dataTraining.data');
     Route::get('/decisionCalculator', [DecisionCalculator::class, 'calculateDecision'])->name('decisionCalculator.calculateDecision');
+    Route::post('/run-decision-tree', [RunDecisionTreeController::class, 'runDecisionTree'])->name('run-decision-tree.runDecisionTree');
+    Route::get('/decisionTree', [DecisionTreeController::class, 'index'])->name('decisionTree.index');
 });
 
 Route::middleware('auth')->group(function () {
