@@ -3,7 +3,6 @@ import { Head, Link } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DecisionCalculator from "./DecisionCalculator";
 import DecisionTree from "./DecisionTree";
-import GiniCalculation from "./GiniCalculation";
 import Data from "./Data";
 
 export default function Index({
@@ -15,11 +14,13 @@ export default function Index({
 
     const tabs = [
         {
+            id: "decisionCalculator",
             name: "Kalkulator Keputusan",
             href: route("decisionCalculator.calculateDecision"),
             current: activeTab === "decisionCalculator",
         },
         {
+            id: "dataTraining",
             name: "Data Training",
             href: route("dataTraining.data"),
             current: activeTab === "dataTraining",
@@ -27,14 +28,8 @@ export default function Index({
         {
             id: "visualization",
             name: "Visualisasi Pohon",
-            href: "#",
-            current: activeTab === "visualization",
-        },
-        {
-            id: "calculation",
-            name: "Perhitungan Gini",
-            href: "#",
-            current: activeTab === "calculation",
+            href: route("decisionTree.index"),
+            current: activeTab === "decisionTree",
         },
     ];
 
@@ -60,8 +55,7 @@ export default function Index({
                                 </h1>
                                 <p className="text-gray-600">
                                     Model penerimaan karyawan berdasarkan
-                                    algoritma Decision Tree dengan akurasi
-                                    86.67%
+                                    algoritma Decision Tree
                                 </p>
                             </header>
 
@@ -121,21 +115,12 @@ export default function Index({
                                     </div>
                                 )}
 
-                                {activeTab === "visualization" && (
+                                {activeTab === "decisionTree" && (
                                     <div>
                                         <h2 className="text-xl font-bold text-gray-700 mb-4">
                                             Visualisasi Pohon Keputusan
                                         </h2>
                                         <DecisionTree />
-                                    </div>
-                                )}
-
-                                {activeTab === "calculation" && (
-                                    <div>
-                                        <h2 className="text-xl font-bold text-gray-700 mb-4">
-                                            Perhitungan Gini Impurity
-                                        </h2>
-                                        <GiniCalculation />
                                     </div>
                                 )}
                             </div>
