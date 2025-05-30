@@ -58,7 +58,8 @@ Route::middleware('auth')->prefix('analysis')->group(function(){
     Route::get('/dataTraining', [DataTrainingController::class, 'data'])->name('dataTraining.data');
     Route::get('/decisionCalculator', [DecisionCalculator::class, 'calculateDecision'])->name('decisionCalculator.calculateDecision');
     Route::post('/run-decision-tree', [RunDecisionTreeController::class, 'runDecisionTree'])->name('run-decision-tree.runDecisionTree');
-    Route::get('/decisionTree', [DecisionTreeController::class, 'index'])->name('decisionTree.index');
+    Route::get('/decision-tree', [DecisionTreeController::class, 'index'])->name('decision-tree.index');
+    Route::get('/decision-tree/data', [DecisionTreeController::class, 'getTreeData'])->name('decision-tree.getTreeData');
 });
 
 Route::middleware('auth')->group(function () {

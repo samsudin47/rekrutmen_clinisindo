@@ -8,6 +8,8 @@ import Data from "./Data";
 export default function Index({
     auth,
     dataTraining,
+    totalData,
+    initialTree,
     activeTab: initialTab = "calculator",
 }) {
     const [activeTab, setActiveTab] = useState(initialTab);
@@ -28,8 +30,8 @@ export default function Index({
         {
             id: "visualization",
             name: "Visualisasi Pohon",
-            href: route("decisionTree.index"),
-            current: activeTab === "decisionTree",
+            href: route("decision-tree.index"),
+            current: activeTab === "decision-tree",
         },
     ];
 
@@ -115,12 +117,15 @@ export default function Index({
                                     </div>
                                 )}
 
-                                {activeTab === "decisionTree" && (
+                                {activeTab === "decision-tree" && (
                                     <div>
                                         <h2 className="text-xl font-bold text-gray-700 mb-4">
                                             Visualisasi Pohon Keputusan
                                         </h2>
-                                        <DecisionTree />
+                                        <DecisionTree
+                                            totalData={totalData}
+                                            initialTree={initialTree}
+                                        />
                                     </div>
                                 )}
                             </div>

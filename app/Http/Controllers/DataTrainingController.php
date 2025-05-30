@@ -11,7 +11,7 @@ class DataTrainingController extends Controller
     {
         $dataTraining = DataTraining::with([
             'candidate.status'
-        ])->paginate(20);
+        ])->paginate(30);
 
 
 
