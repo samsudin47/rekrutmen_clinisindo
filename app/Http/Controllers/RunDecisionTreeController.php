@@ -13,34 +13,27 @@ class RunDecisionTreeController extends Controller
         $request->validate([
             'nama' => 'required|exists:training_data,id'
         ]);
-
         $id = $request->input('nama');
         $row = DataTraining::with('candidate.status')->findOrFail($id);
-
         // Ambil data dari relasi candidate
         $candidate = $row->candidate;
         $psikotest = (float) $candidate->psikotest;
         $pengalaman = (int) $candidate->pengalaman;
         $pendidikan = strtolower(trim($candidate->pendidikan));
-
         // Implementasi CART Decision Tree
         $prediction = $this->cartDecisionTree($psikotest, $pengalaman, $pendidikan);
-
         // Hitung akurasi berdasarkan status aktual
         $actualStatus = $candidate->status->description ?? '';
         $accuracy = $this->calculateAccuracy($prediction, $actualStatus);
-
         // Update prediction dan accuracy
         $row->update([
             'prediction_model' => $prediction,
             'accuracy' => $accuracy,
         ]);
-
         // Ambil data training yang sudah diupdate untuk ditampilkan
         $dataTraining = DataTraining::with(['candidate.status'])
             ->where('id', $id)
             ->paginate(1);
-
         return Inertia::render('Analysis/Data', [
             'dataTraining' => $dataTraining,
             'message' => 'Prediksi selesai dijalankan.',

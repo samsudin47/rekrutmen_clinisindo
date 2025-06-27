@@ -9,10 +9,8 @@ use App\Models\CandidateStatus;
 
 class CandidateController extends Controller
 {
-
     public function index(){
         $candidates = Candidate::with('status')->paginate(10);
-
         return Inertia::render('Candidate/Index', [
             'candidates' => $candidates,
         ]);
@@ -22,9 +20,7 @@ class CandidateController extends Controller
         return Inertia::render('Candidate/Create',[
             'statusList' => CandidateStatus::all(),
         ]);
-
     }
-
     public function store(Request $request){
         $request->validate([
             'kode'=>'required|unique:candidate,kode',
@@ -36,14 +32,11 @@ class CandidateController extends Controller
             'psikotest'=>'required',
             'status_id'=>'required'
         ]);
-
         $candidate = Candidate::create($request->all());
-
         $candidate->trainingData()->create([
             'prediction_model' => 'Model Name', // Replace with actual model name
             'accuracy' => 0.0, // Initial accuracy, replace with actual value if needed
         ]);
-
         return redirect()->route('candidates');
     }
 
@@ -65,7 +58,6 @@ class CandidateController extends Controller
             'psikotest'=>'required',
             'status_id'=>'nullable|exists:status_candidate,id'
         ]);
-
         $candidate->update($request->all());
 
         if($candidate->trainingData) {

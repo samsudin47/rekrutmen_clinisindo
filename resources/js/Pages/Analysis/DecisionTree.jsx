@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Head, router } from "@inertiajs/react";
 
-export default function DecisionTree({ initialTree, totalData }) {
+export default function DecisionTree({ initialTree }) {
     const [tree, setTree] = useState(initialTree);
     const [loading, setLoading] = useState(false);
     const [statistics, setStatistics] = useState(null);
@@ -106,52 +106,58 @@ export default function DecisionTree({ initialTree, totalData }) {
                 stats.totalData += count;
                 stats.totalPredicted += count;
 
-                // Count predictions by category - Fixed logic for "Dipertimbangkan"
-                const result = n.result.trim(); // Remove any whitespace
-
-                // Handle different possible variations of the result names
-                if (result === "Diterima") {
-                    stats.predictions["Diterima"] += count;
-                    stats.predictionCounts["Diterima"] += count;
-                } else if (result === "Tidak Diterima") {
-                    stats.predictions["Tidak Diterima"] += count;
-                    stats.predictionCounts["Tidak Diterima"] += count;
-                } else if (
-                    result === "Dipertimbangkan" ||
-                    result === "Pertimbangkan" ||
-                    result.includes("pertimbang")
-                ) {
-                    // Handle various forms of "Dipertimbangkan"
-                    stats.predictions["Dipertimbangkan"] += count;
-                    stats.predictionCounts["Dipertimbangkan"] += count;
-                } else {
-                    // Log unknown results for debugging
-                    console.log("Unknown result found:", result);
-                    // Try to match partial strings
-                    if (result.toLowerCase().includes("terima")) {
-                        if (result.toLowerCase().includes("tidak")) {
-                            stats.predictions["Tidak Diterima"] += count;
-                            stats.predictionCounts["Tidak Diterima"] += count;
-                        } else {
-                            stats.predictions["Diterima"] += count;
-                            stats.predictionCounts["Diterima"] += count;
+                // --- Tambahkan detail prediksi dari setiap node terminal ---
+                if (n.details) {
+                    Object.entries(n.details).forEach(([key, value]) => {
+                        if (stats.predictions[key] !== undefined) {
+                            stats.predictions[key] += value;
+                            stats.predictionCounts[key] += value;
                         }
-                    } else if (result.toLowerCase().includes("pertimbang")) {
+                    });
+                } else {
+                    // Jika tidak ada details, gunakan label node terminal
+                    const result = n.result.trim();
+                    if (result === "Diterima") {
+                        stats.predictions["Diterima"] += count;
+                        stats.predictionCounts["Diterima"] += count;
+                    } else if (result === "Tidak Diterima") {
+                        stats.predictions["Tidak Diterima"] += count;
+                        stats.predictionCounts["Tidak Diterima"] += count;
+                    } else if (
+                        result === "Dipertimbangkan" ||
+                        result === "Pertimbangkan" ||
+                        result.includes("pertimbang")
+                    ) {
                         stats.predictions["Dipertimbangkan"] += count;
                         stats.predictionCounts["Dipertimbangkan"] += count;
+                    } else {
+                        // Log unknown results for debugging
+                        console.log("Unknown result found:", result);
+                        if (result.toLowerCase().includes("terima")) {
+                            if (result.toLowerCase().includes("tidak")) {
+                                stats.predictions["Tidak Diterima"] += count;
+                                stats.predictionCounts["Tidak Diterima"] +=
+                                    count;
+                            } else {
+                                stats.predictions["Diterima"] += count;
+                                stats.predictionCounts["Diterima"] += count;
+                            }
+                        } else if (
+                            result.toLowerCase().includes("pertimbang")
+                        ) {
+                            stats.predictions["Dipertimbangkan"] += count;
+                            stats.predictionCounts["Dipertimbangkan"] += count;
+                        }
                     }
                 }
 
                 // Calculate correct predictions based on node accuracy or purity
                 let correctCount = count;
-
-                // If node has accuracy/purity information, use it
                 if (n.accuracy !== undefined) {
                     correctCount = Math.round(count * (n.accuracy / 100));
                 } else if (n.purity !== undefined) {
                     correctCount = Math.round(count * n.purity);
                 } else if (n.details) {
-                    // Calculate purity from details if available
                     const values = Object.values(n.details);
                     const maxValue = Math.max(...values);
                     const totalInNode = values.reduce(
@@ -159,10 +165,9 @@ export default function DecisionTree({ initialTree, totalData }) {
                         0
                     );
                     if (totalInNode > 0) {
-                        correctCount = maxValue; // Only the majority class is considered correct
+                        correctCount = maxValue;
                     }
                 }
-
                 stats.correctPredictions += correctCount;
             }
 
@@ -427,7 +432,10 @@ export default function DecisionTree({ initialTree, totalData }) {
                             </div>
                             <div className="text-center p-4 bg-yellow-50 rounded-lg">
                                 <div className="text-2xl font-bold text-yellow-600">
-                                    {statistics.predictions["Dipertimbangkan"]}
+                                    {/* Tampilkan 0 jika undefined/null, atau tampilkan jumlah sebenarnya */}
+                                    {statistics.predictions[
+                                        "Dipertimbangkan"
+                                    ] ?? 0}
                                 </div>
                                 <div className="text-sm text-yellow-700">
                                     Dipertimbangkan

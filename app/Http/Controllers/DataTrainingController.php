@@ -13,8 +13,6 @@ class DataTrainingController extends Controller
             'candidate.status'
         ])->paginate(30);
 
-
-
         return Inertia::render('Analysis/Index', [
             'dataTraining' => $dataTraining,
             'activeTab' => 'dataTraining',
