@@ -12,8 +12,6 @@ class UserController extends Controller
     {
 
         $users = User::paginate(5);
-
-
         return Inertia::render('User/Index', [
             'users' => $users,
         ]);
@@ -30,9 +28,7 @@ class UserController extends Controller
             'password'=>'required|min:8|confirmed',
             'password_confirmation'=>'required|same:password',
         ]);
-
         User::create($request->all());
-
         return redirect()->route('users');
     }
 
@@ -41,7 +37,6 @@ class UserController extends Controller
             'user' => $user,
         ]);
     }
-
     public function update(Request $request, User $user){
         $request->validate([
             'name'=>'required',
@@ -49,7 +44,6 @@ class UserController extends Controller
             'password'=>'nullable|min:8',
             'password_confirmation'=>'nullable|same:password',
         ]);
-
         $user->update([
             'name'=>$request->name,
             'email'=>$request->email,

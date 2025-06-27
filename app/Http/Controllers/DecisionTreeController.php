@@ -26,7 +26,6 @@ class DecisionTreeController extends Controller
             ]);
         }
     }
-
     public function getTreeData()
     {
         try {
@@ -59,14 +58,11 @@ class DecisionTreeController extends Controller
                 'details' => []
             ];
         }
-
         // Analisis distribusi berdasarkan prediction_model
         $distributions = $this->analyzeData($data);
-
         // Generate tree berdasarkan analisis
         return $this->buildTree($data, $distributions);
     }
-
     private function analyzeData($data)
     {
         $stats = [
