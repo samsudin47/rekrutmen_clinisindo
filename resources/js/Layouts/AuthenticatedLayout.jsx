@@ -11,6 +11,28 @@ export default function AuthenticatedLayout({ header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
+    // Helper function to determine premium status
+    const getPremiumStatus = () => {
+        if (!user.is_premium) {
+            return { text: 'Free Account', color: 'text-gray-500', bgColor: 'bg-gray-100' };
+        }
+
+        if (!user.premium_expires_at) {
+            return { text: 'Premium (Lifetime)', color: 'text-yellow-600', bgColor: 'bg-yellow-100' };
+        }
+
+        const expiresAt = new Date(user.premium_expires_at);
+        const now = new Date();
+
+        if (expiresAt > now) {
+            return { text: 'Premium (Active)', color: 'text-green-600', bgColor: 'bg-green-100' };
+        }
+
+        return { text: 'Premium (Expired)', color: 'text-red-600', bgColor: 'bg-red-100' };
+    };
+
+    const premiumStatus = getPremiumStatus();
+
     const menu = (role) => {
         if (user.role === "admin") {
             return [
@@ -84,6 +106,13 @@ export default function AuthenticatedLayout({ header, children }) {
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
+                            {/* Premium Status Badge */}
+                            <div className="mr-4">
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${premiumStatus.bgColor} ${premiumStatus.color}`}>
+                                    {premiumStatus.text}
+                                </span>
+                            </div>
+                            
                             <div className="relative ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -198,6 +227,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
                             <div className="text-sm font-medium text-gray-500">
                                 {user.email}
+                            </div>
+                            {/* Premium Status in Mobile View */}
+                            <div className="mt-2">
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${premiumStatus.bgColor} ${premiumStatus.color}`}>
+                                    {premiumStatus.text}
+                                </span>
                             </div>
                         </div>
 

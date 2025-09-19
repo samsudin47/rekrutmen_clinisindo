@@ -23,7 +23,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $user = auth()->user();
+    
+    return Inertia::render('Dashboard', [
+        'premiumStatus' => [
+            'is_premium' => $user->is_premium,
+            'premium_expires_at' => $user->premium_expires_at,
+            'premium_status_text' => $user->premium_status,
+            'is_active' => $user->isPremiumActive(),
+        ],
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'admin'])->group(function(){
