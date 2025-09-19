@@ -21,6 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'is_premium',
+        'premium_expires_at',
     ];
 
     /**
@@ -43,6 +45,45 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_premium' => 'boolean',
+            'premium_expires_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Check if user has active premium subscription
+     */
+    public function isPremiumActive(): bool
+    {
+        if (!$this->is_premium) {
+            return false;
+        }
+
+        // If premium_expires_at is null, it means lifetime premium
+        if ($this->premium_expires_at === null) {
+            return true;
+        }
+
+        return $this->premium_expires_at->isFuture();
+    }
+
+    /**
+     * Get premium status label
+     */
+    public function getPremiumStatusAttribute(): string
+    {
+        if (!$this->is_premium) {
+            return 'Free Account';
+        }
+
+        if ($this->premium_expires_at === null) {
+            return 'Premium (Lifetime)';
+        }
+
+        if ($this->premium_expires_at->isFuture()) {
+            return 'Premium (Active)';
+        }
+
+        return 'Premium (Expired)';
     }
 }
